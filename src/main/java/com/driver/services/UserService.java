@@ -13,16 +13,38 @@ public class UserService {
     @Autowired
     UserRepository userRepository3;
 
-    public User createUser(String username, String password){
+    @Autowired
+    BlogService blogService3;
 
-
+    public User createUser(String username, String password) {
+        User user = new User();
+        user.setFirstName("frstName");
+        user.setLastName("lstName");
+        user.setUsername(username);
+        user.setPassword(password);
+        userRepository3.save(user);
+        return user;
     }
 
-    public void deleteUser(int userId){
-
+    public void deleteUser(int userId) {
+        try {
+            userRepository3.deleteById(userId);
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 
-    public User updateUser(Integer id, String password){
-
+    public User updateUser(Integer id, String password) {
+//        userRepository3.save(id);
+        User user;
+        try {
+            user = userRepository3.findById(id).get();
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+        user.setPassword(password);
+        userRepository3.save(user);
+        return user;
     }
 }
